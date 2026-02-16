@@ -1,6 +1,6 @@
 module github.com/elitonkfogaca/mvnx-cli
 
-go 1.25.5
+go 1.23.0
 
 require (
 	github.com/beevik/etree v1.6.0
