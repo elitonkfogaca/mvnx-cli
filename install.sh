@@ -64,8 +64,11 @@ fi
 
 echo "Latest version: $LATEST_VERSION"
 
+# Remove 'v' prefix from version for filename
+VERSION_NUMBER="${LATEST_VERSION#v}"
+
 # Download URL
-DOWNLOAD_URL="https://github.com/$REPO/releases/download/${LATEST_VERSION}/mvnx_${OS_TYPE}_${ARCH_TYPE}.tar.gz"
+DOWNLOAD_URL="https://github.com/$REPO/releases/download/${LATEST_VERSION}/mvnx_${VERSION_NUMBER}_${OS_TYPE}_${ARCH_TYPE}.tar.gz"
 
 echo -e "${YELLOW}Downloading from: $DOWNLOAD_URL${NC}"
 

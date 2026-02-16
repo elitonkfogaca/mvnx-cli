@@ -35,33 +35,39 @@ brew install mvnx
 **For Apple Silicon (M1/M2/M3):**
 
 ```bash
+# Get version
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # Download
-curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_darwin_arm64.tar.gz
+curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_darwin_arm64.tar.gz
 
 # Extract
-tar -xzf mvnx_darwin_arm64.tar.gz
+tar -xzf mvnx_${VERSION}_darwin_arm64.tar.gz
 
 # Install
 sudo mv mvnx /usr/local/bin/
 
 # Clean up
-rm mvnx_darwin_arm64.tar.gz
+rm mvnx_${VERSION}_darwin_arm64.tar.gz
 ```
 
 **For Intel Macs:**
 
 ```bash
+# Get version
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # Download
-curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_darwin_amd64.tar.gz
+curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_darwin_amd64.tar.gz
 
 # Extract
-tar -xzf mvnx_darwin_amd64.tar.gz
+tar -xzf mvnx_${VERSION}_darwin_amd64.tar.gz
 
 # Install
 sudo mv mvnx /usr/local/bin/
 
 # Clean up
-rm mvnx_darwin_amd64.tar.gz
+rm mvnx_${VERSION}_darwin_amd64.tar.gz
 ```
 
 ---
@@ -81,33 +87,39 @@ curl -fsSL https://raw.githubusercontent.com/elitonkfogaca/mvnx-cli/main/install
 **For x86_64:**
 
 ```bash
+# Get version
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # Download
-curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_linux_amd64.tar.gz
+curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_linux_amd64.tar.gz
 
 # Extract
-tar -xzf mvnx_linux_amd64.tar.gz
+tar -xzf mvnx_${VERSION}_linux_amd64.tar.gz
 
 # Install
 sudo mv mvnx /usr/local/bin/
 
 # Clean up
-rm mvnx_linux_amd64.tar.gz
+rm mvnx_${VERSION}_linux_amd64.tar.gz
 ```
 
 **For ARM64:**
 
 ```bash
+# Get version
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # Download
-curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_linux_arm64.tar.gz
+curl -LO https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_linux_arm64.tar.gz
 
 # Extract
-tar -xzf mvnx_linux_arm64.tar.gz
+tar -xzf mvnx_${VERSION}_linux_arm64.tar.gz
 
 # Install
 sudo mv mvnx /usr/local/bin/
 
 # Clean up
-rm mvnx_linux_arm64.tar.gz
+rm mvnx_${VERSION}_linux_arm64.tar.gz
 ```
 
 ### Alternative: User-level Installation (No sudo)
@@ -115,11 +127,14 @@ rm mvnx_linux_arm64.tar.gz
 If you don't have sudo access:
 
 ```bash
+# Get version
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # Create local bin directory if it doesn't exist
 mkdir -p ~/.local/bin
 
 # Download and extract (example for x86_64)
-curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_linux_amd64.tar.gz | tar xz
+curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_linux_amd64.tar.gz | tar xz
 
 # Move to local bin
 mv mvnx ~/.local/bin/
@@ -137,8 +152,11 @@ export PATH="$HOME/.local/bin:$PATH"
 Open PowerShell as Administrator and run:
 
 ```powershell
+# Get version
+$version = (Invoke-RestMethod -Uri "https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest").tag_name.TrimStart('v')
+
 # Download the latest release
-Invoke-WebRequest -Uri "https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_windows_amd64.zip" -OutFile "mvnx.zip"
+Invoke-WebRequest -Uri "https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${version}_windows_amd64.zip" -OutFile "mvnx.zip"
 
 # Extract
 Expand-Archive -Path mvnx.zip -DestinationPath . -Force
@@ -154,7 +172,7 @@ Remove-Item mvnx.zip
 
 1. Download the latest Windows release:
    - Go to: https://github.com/elitonkfogaca/mvnx-cli/releases/latest
-   - Download: `mvnx_windows_amd64.zip`
+   - Download: `mvnx_<VERSION>_windows_amd64.zip` (e.g., `mvnx_1.0.0_windows_amd64.zip`)
 
 2. Extract the ZIP file
 

@@ -140,24 +140,30 @@ brew install mvnx
 
 **Manual installation:**
 ```bash
+# Get the latest version number (without 'v' prefix)
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # For Apple Silicon (M1/M2/M3)
-curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_darwin_arm64.tar.gz | tar xz
+curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_darwin_arm64.tar.gz | tar xz
 sudo mv mvnx /usr/local/bin/
 
 # For Intel Macs
-curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_darwin_amd64.tar.gz | tar xz
+curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_darwin_amd64.tar.gz | tar xz
 sudo mv mvnx /usr/local/bin/
 ```
 
 ### Linux
 
 ```bash
+# Get the latest version number (without 'v' prefix)
+VERSION=$(curl -fsSL https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+
 # For x86_64
-curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_linux_amd64.tar.gz | tar xz
+curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_linux_amd64.tar.gz | tar xz
 sudo mv mvnx /usr/local/bin/
 
 # For ARM64
-curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_linux_arm64.tar.gz | tar xz
+curl -L https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${VERSION}_linux_arm64.tar.gz | tar xz
 sudo mv mvnx /usr/local/bin/
 ```
 
@@ -165,8 +171,11 @@ sudo mv mvnx /usr/local/bin/
 
 **Via PowerShell:**
 ```powershell
+# Get the latest version
+$version = (Invoke-RestMethod -Uri "https://api.github.com/repos/elitonkfogaca/mvnx-cli/releases/latest").tag_name.TrimStart('v')
+
 # Download the latest release
-Invoke-WebRequest -Uri "https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_windows_amd64.zip" -OutFile "mvnx.zip"
+Invoke-WebRequest -Uri "https://github.com/elitonkfogaca/mvnx-cli/releases/latest/download/mvnx_${version}_windows_amd64.zip" -OutFile "mvnx.zip"
 
 # Extract
 Expand-Archive -Path mvnx.zip -DestinationPath .
