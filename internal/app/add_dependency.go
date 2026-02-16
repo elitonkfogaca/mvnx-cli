@@ -24,7 +24,7 @@ func NewAddDependencyService(resolver domain.Resolver, pomRepository domain.PomR
 type SearchResult struct {
 	// Results is the list of artifacts found
 	Results []*domain.ArtifactSearchResult
-	
+
 	// NeedsSelection indicates if user needs to select from multiple results
 	NeedsSelection bool
 }
@@ -36,14 +36,14 @@ func (s *AddDependencyService) Search(query string) (*SearchResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if len(results) == 0 {
 		return nil, fmt.Errorf("no artifacts found for query: %s", query)
 	}
-	
+
 	// If there's only one result or it was an exact match, no selection needed
 	needsSelection := len(results) > 1
-	
+
 	return &SearchResult{
 		Results:        results,
 		NeedsSelection: needsSelection,
@@ -59,7 +59,7 @@ func (s *AddDependencyService) Add(artifact *domain.ArtifactSearchResult, scope 
 	if err != nil {
 		return err
 	}
-	
+
 	// Check if dependency already exists
 	if s.pomRepository.HasDependency(dep.GroupID, dep.ArtifactID) {
 		// Update existing dependency (silent update)
@@ -72,12 +72,12 @@ func (s *AddDependencyService) Add(artifact *domain.ArtifactSearchResult, scope 
 			return fmt.Errorf("failed to add dependency: %w", err)
 		}
 	}
-	
+
 	// Save the pom.xml
 	if err := s.pomRepository.Save(); err != nil {
 		return fmt.Errorf("failed to save pom.xml: %w", err)
 	}
-	
+
 	return nil
 }
 

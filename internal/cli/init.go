@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/elitonkfogaca/mvnx-cli/internal/app"
 	"github.com/spf13/cobra"
+
+	"github.com/elitonkfogaca/mvnx-cli/internal/app"
 )
 
 // initCmd represents the init command
@@ -23,17 +24,17 @@ func runInit(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return fmt.Errorf("failed to get current directory: %w", err)
 	}
-	
+
 	// Initialize project
 	service := app.NewInitProjectService()
 	if err := service.Init(cwd); err != nil {
 		return err
 	}
-	
+
 	fmt.Println("✓ Initialized Maven project")
 	fmt.Println("  Created pom.xml")
 	fmt.Println("  Created src/main/java")
 	fmt.Println("  Created src/test/java")
-	
+
 	return nil
 }

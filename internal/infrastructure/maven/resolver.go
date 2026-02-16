@@ -29,7 +29,7 @@ func (r *Resolver) Resolve(query string) ([]*domain.ArtifactSearchResult, error)
 		if len(parts) == 2 {
 			groupID := strings.TrimSpace(parts[0])
 			artifactID := strings.TrimSpace(parts[1])
-			
+
 			if groupID != "" && artifactID != "" {
 				result, err := r.ResolveExact(groupID, artifactID)
 				if err != nil {
@@ -39,7 +39,7 @@ func (r *Resolver) Resolve(query string) ([]*domain.ArtifactSearchResult, error)
 			}
 		}
 	}
-	
+
 	// Perform fuzzy search
 	return r.fuzzySearch(query)
 }
@@ -50,19 +50,19 @@ func (r *Resolver) ResolveExact(groupID, artifactID string) (*domain.ArtifactSea
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if resp.Response.NumFound == 0 {
 		return nil, fmt.Errorf("artifact not found: %s:%s", groupID, artifactID)
 	}
-	
+
 	doc := resp.Response.Docs[0]
-	
+
 	// Ensure version is stable
 	version := doc.LatestVersion
 	if !IsStableVersion(version) {
 		return nil, fmt.Errorf("no stable version found for %s:%s (latest: %s)", groupID, artifactID, version)
 	}
-	
+
 	return domain.NewArtifactSearchResult(
 		doc.GroupID,
 		doc.ArtifactID,
@@ -78,44 +78,44 @@ func (r *Resolver) fuzzySearch(query string) ([]*domain.ArtifactSearchResult, er
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if resp.Response.NumFound == 0 {
 		return nil, fmt.Errorf("no artifacts found for query: %s", query)
 	}
-	
+
 	results := make([]*domain.ArtifactSearchResult, 0)
-	
+
 	for i, doc := range resp.Response.Docs {
 		// Filter out unstable versions
 		if !IsStableVersion(doc.LatestVersion) {
 			continue
 		}
-		
+
 		// Calculate a simple relevance score based on position
 		// First result gets highest score, subsequent results get lower scores
 		score := 100.0 - float64(i)*10.0
 		if score < 0 {
 			score = 0
 		}
-		
+
 		result := domain.NewArtifactSearchResult(
 			doc.GroupID,
 			doc.ArtifactID,
 			doc.LatestVersion,
 			score,
 		)
-		
+
 		results = append(results, result)
-		
+
 		// Stop after we have enough stable results
 		if len(results) >= 10 {
 			break
 		}
 	}
-	
+
 	if len(results) == 0 {
 		return nil, fmt.Errorf("no stable versions found for query: %s", query)
 	}
-	
+
 	return results, nil
 }

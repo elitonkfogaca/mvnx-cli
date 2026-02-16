@@ -4,7 +4,7 @@ package domain
 type Project struct {
 	// Path is the directory containing the pom.xml
 	Path string
-	
+
 	// PomLocation is the full path to the pom.xml file
 	PomLocation string
 }

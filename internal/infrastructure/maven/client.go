@@ -13,7 +13,7 @@ import (
 const (
 	// MavenCentralSearchURL is the base URL for Maven Central search API
 	MavenCentralSearchURL = "https://search.maven.org/solrsearch/select"
-	
+
 	// DefaultTimeout for HTTP requests
 	DefaultTimeout = 10 * time.Second
 )
@@ -56,30 +56,30 @@ func (c *Client) Search(query string, rows int) (*SearchResponse, error) {
 	params.Add("q", query)
 	params.Add("rows", fmt.Sprintf("%d", rows))
 	params.Add("wt", "json")
-	
+
 	fullURL := fmt.Sprintf("%s?%s", c.baseURL, params.Encode())
-	
+
 	resp, err := c.httpClient.Get(fullURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query Maven Central: %w", err)
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		return nil, fmt.Errorf("Maven Central API returned status %d: %s", resp.StatusCode, string(body))
 	}
-	
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read response body: %w", err)
 	}
-	
+
 	var searchResp SearchResponse
 	if err := json.Unmarshal(body, &searchResp); err != nil {
 		return nil, fmt.Errorf("failed to parse JSON response: %w", err)
 	}
-	
+
 	return &searchResp, nil
 }
 
@@ -93,7 +93,7 @@ func (c *Client) SearchByCoordinates(groupID, artifactID string) (*SearchRespons
 // Excludes SNAPSHOT, alpha, beta, RC, M (milestone) versions.
 func IsStableVersion(version string) bool {
 	lower := strings.ToLower(version)
-	
+
 	unstableMarkers := []string{
 		"-snapshot",
 		"-alpha",
@@ -105,12 +105,12 @@ func IsStableVersion(version string) bool {
 		".rc",
 		".m",
 	}
-	
+
 	for _, marker := range unstableMarkers {
 		if strings.Contains(lower, marker) {
 			return false
 		}
 	}
-	
+
 	return true
 }

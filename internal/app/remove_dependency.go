@@ -23,11 +23,11 @@ func (s *RemoveDependencyService) Remove(artifactID string) error {
 	if err := s.pomRepository.RemoveDependency(artifactID); err != nil {
 		return fmt.Errorf("failed to remove dependency: %w", err)
 	}
-	
+
 	if err := s.pomRepository.Save(); err != nil {
 		return fmt.Errorf("failed to save pom.xml: %w", err)
 	}
-	
+
 	return nil
 }
 

@@ -23,11 +23,11 @@ func (s *SearchArtifactsService) Search(query string) ([]*domain.ArtifactSearchR
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Limit to top 5 results for display
 	if len(results) > 5 {
 		results = results[:5]
 	}
-	
+
 	return results, nil
 }

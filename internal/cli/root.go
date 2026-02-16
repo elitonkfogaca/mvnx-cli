@@ -7,7 +7,7 @@ import (
 var (
 	// Verbose flag for detailed output
 	verbose bool
-	
+
 	// Version information
 	version = "dev"
 	commit  = "none"
@@ -37,14 +37,14 @@ func Execute() error {
 
 func init() {
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
-	
+
 	// Customize version template
 	rootCmd.SetVersionTemplate(`{{printf "mvnx version %s\n" .Version}}{{printf "commit: %s\n" (index .Annotations "commit")}}{{printf "built: %s\n" (index .Annotations "date")}}`)
 	rootCmd.Annotations = map[string]string{
 		"commit": commit,
 		"date":   date,
 	}
-	
+
 	// Add subcommands
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(addCmd)

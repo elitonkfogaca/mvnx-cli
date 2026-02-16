@@ -59,12 +59,12 @@ func (pi *ProjectInitializer) InitProject(path string) error {
 	if _, err := os.Stat(pomPath); err == nil {
 		return fmt.Errorf("pom.xml already exists in %s", path)
 	}
-	
+
 	// Create pom.xml
 	if err := os.WriteFile(pomPath, []byte(DefaultPomTemplate), 0644); err != nil {
 		return fmt.Errorf("failed to create pom.xml: %w", err)
 	}
-	
+
 	// Create directory structure
 	dirs := []string{
 		filepath.Join(path, "src", "main", "java"),
@@ -72,13 +72,13 @@ func (pi *ProjectInitializer) InitProject(path string) error {
 		filepath.Join(path, "src", "test", "java"),
 		filepath.Join(path, "src", "test", "resources"),
 	}
-	
+
 	for _, dir := range dirs {
 		if err := os.MkdirAll(dir, 0755); err != nil {
 			return fmt.Errorf("failed to create directory %s: %w", dir, err)
 		}
 	}
-	
+
 	return nil
 }
 
@@ -88,25 +88,25 @@ func (pi *ProjectInitializer) FindPomXML(startPath string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	// Walk up the directory tree
 	for {
 		pomPath := filepath.Join(currentPath, "pom.xml")
-		
+
 		if _, err := os.Stat(pomPath); err == nil {
 			return pomPath, nil
 		}
-		
+
 		// Get parent directory
 		parentPath := filepath.Dir(currentPath)
-		
+
 		// If we've reached the root, stop
 		if parentPath == currentPath {
 			break
 		}
-		
+
 		currentPath = parentPath
 	}
-	
+
 	return "", fmt.Errorf("no pom.xml found in current directory or parent directories")
 }

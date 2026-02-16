@@ -21,12 +21,12 @@ func NewDependency(groupID, artifactID, version, scope string) (*Dependency, err
 	if version == "" {
 		return nil, fmt.Errorf("version cannot be empty")
 	}
-	
+
 	// Default scope to compile if not specified
 	if scope == "" {
 		scope = "compile"
 	}
-	
+
 	// Validate scope
 	validScopes := map[string]bool{
 		"compile":  true,
@@ -37,7 +37,7 @@ func NewDependency(groupID, artifactID, version, scope string) (*Dependency, err
 	if !validScopes[scope] {
 		return nil, fmt.Errorf("invalid scope: %s (valid: compile, test, provided, runtime)", scope)
 	}
-	
+
 	return &Dependency{
 		GroupID:    groupID,
 		ArtifactID: artifactID,

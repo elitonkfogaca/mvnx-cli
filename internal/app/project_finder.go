@@ -24,9 +24,9 @@ func (pf *ProjectFinder) FindProject(startPath string) (*domain.Project, error) 
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Get the directory containing the pom.xml
 	projectPath := pomPath[:len(pomPath)-len("/pom.xml")]
-	
+
 	return domain.NewProject(projectPath, pomPath), nil
 }

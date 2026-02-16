@@ -8,79 +8,79 @@ import (
 
 func TestNewDependency(t *testing.T) {
 	tests := []struct {
-		name        string
-		groupID     string
-		artifactID  string
-		version     string
-		scope       string
-		wantErr     bool
+		name          string
+		groupID       string
+		artifactID    string
+		version       string
+		scope         string
+		wantErr       bool
 		expectedScope string
 	}{
 		{
-			name:        "valid dependency with compile scope",
-			groupID:     "org.springframework",
-			artifactID:  "spring-core",
-			version:     "5.3.0",
-			scope:       "compile",
-			wantErr:     false,
+			name:          "valid dependency with compile scope",
+			groupID:       "org.springframework",
+			artifactID:    "spring-core",
+			version:       "5.3.0",
+			scope:         "compile",
+			wantErr:       false,
 			expectedScope: "compile",
 		},
 		{
-			name:        "valid dependency with default scope",
-			groupID:     "junit",
-			artifactID:  "junit",
-			version:     "4.13.2",
-			scope:       "",
-			wantErr:     false,
+			name:          "valid dependency with default scope",
+			groupID:       "junit",
+			artifactID:    "junit",
+			version:       "4.13.2",
+			scope:         "",
+			wantErr:       false,
 			expectedScope: "compile",
 		},
 		{
-			name:        "valid dependency with test scope",
-			groupID:     "org.mockito",
-			artifactID:  "mockito-core",
-			version:     "3.11.2",
-			scope:       "test",
-			wantErr:     false,
+			name:          "valid dependency with test scope",
+			groupID:       "org.mockito",
+			artifactID:    "mockito-core",
+			version:       "3.11.2",
+			scope:         "test",
+			wantErr:       false,
 			expectedScope: "test",
 		},
 		{
-			name:        "invalid scope",
-			groupID:     "org.example",
-			artifactID:  "example",
-			version:     "1.0.0",
-			scope:       "invalid",
-			wantErr:     true,
+			name:       "invalid scope",
+			groupID:    "org.example",
+			artifactID: "example",
+			version:    "1.0.0",
+			scope:      "invalid",
+			wantErr:    true,
 		},
 		{
-			name:        "empty groupID",
-			groupID:     "",
-			artifactID:  "example",
-			version:     "1.0.0",
-			scope:       "compile",
-			wantErr:     true,
+			name:       "empty groupID",
+			groupID:    "",
+			artifactID: "example",
+			version:    "1.0.0",
+			scope:      "compile",
+			wantErr:    true,
 		},
 		{
-			name:        "empty artifactID",
-			groupID:     "org.example",
-			artifactID:  "",
-			version:     "1.0.0",
-			scope:       "compile",
-			wantErr:     true,
+			name:       "empty artifactID",
+			groupID:    "org.example",
+			artifactID: "",
+			version:    "1.0.0",
+			scope:      "compile",
+			wantErr:    true,
 		},
 		{
-			name:        "empty version",
-			groupID:     "org.example",
-			artifactID:  "example",
-			version:     "",
-			scope:       "compile",
-			wantErr:     true,
+			name:       "empty version",
+			groupID:    "org.example",
+			artifactID: "example",
+			version:    "",
+			scope:      "compile",
+			wantErr:    true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			dep, err := NewDependency(tt.groupID, tt.artifactID, tt.version, tt.scope)
-			
+
 			if tt.wantErr {
 				assert.Error(t, err)
 				assert.Nil(t, dep)
@@ -139,6 +139,6 @@ func TestDependency_Coordinates(t *testing.T) {
 		Version:    "1.0.0",
 		Scope:      "compile",
 	}
-	
+
 	assert.Equal(t, "org.example:my-lib", dep.Coordinates())
 }
